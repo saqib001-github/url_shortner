@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  avatar    String     @default("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  shortUrls ShortUrl[]
+
+  @@index([email], name: "idx_users_email")
+  @@map("users")
+}
+
+model ShortUrl {
+  id        String   @id @default(cuid())
+  fullUrl   String
+  shortUrl  String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  clicks    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([shortUrl], name: "idx_short_urls_short_url")
+  @@map("short_urls")
+}
