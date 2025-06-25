@@ -1,5 +1,6 @@
 import wrapAsync from "../utils/wrap-async.js";
 import { loginUser, registerUser } from "../services/user.service.js";
+import { getUserByEmail } from "../dao/user.dao.js";
 
 export const register = wrapAsync(async (req, res) => {
   const { email, password,name } = req.body;
@@ -32,7 +33,7 @@ export const logout = wrapAsync(async (req, res) => {
 });
 
 export const get_current_user = wrapAsync(async (req, res) => {
-  const user = req.user;
+  const user = await getUserByEmail(req.user.email);
   res.status(200).json({
     success: true,
     message: "User retrieved successfully",
