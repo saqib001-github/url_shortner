@@ -1,0 +1,43 @@
+@jwt_token=PASTE_YOUR_JWT_TOKEN_HERE
+
+### Register a new user
+POST https://url-shortner-1-ymyy.onrender.com/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login
+POST https://url-shortner-1-ymyy.onrender.com/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Get current user (requires JWT)
+GET https://url-shortner-1-ymyy.onrender.com/api/auth/me
+Authorization: Bearer {{jwt_token}}
+
+### Create a short URL (requires JWT)
+POST https://url-shortner-1-ymyy.onrender.com/api/create/
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "originalUrl": "https://www.example.com"
+}
+
+### Get all URLs for the authenticated user (requires JWT)
+POST https://url-shortner-1-ymyy.onrender.com/api/user/urls
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Redirect to the original URL (public)
+GET https://url-shortner-1-ymyy.onrender.com/<shortUrl>
+
+### Prometheus metrics (public)
+GET https://url-shortner-1-ymyy.onrender.com/metrics
