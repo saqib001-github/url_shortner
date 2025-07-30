@@ -10,12 +10,10 @@ export const authMiddleware = async (req, res, next) => {
     console.log(token,'token')
     try {
         const decoded = verifyToken(token);
-        console.log(decoded,'decoded')
         if (!decoded) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-        req.user = decoded.body;
-        console.log(decoded,'lllllllllllllll')
+        req.user = decoded;
         next();
     } catch (err) {
         return res.status(401).json({ message: "Unauthorized" });

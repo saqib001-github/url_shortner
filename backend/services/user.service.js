@@ -8,7 +8,7 @@ export const registerUser = async (name, email, password) => {
     if(user) throw new ConflictError("User already exists");
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await createUser({ name, email, password: hashedPassword });
-    const token = await signToken({ id: newUser.id, email: newUser.email });
+    const token = signToken({ id: newUser.id, email: newUser.email });
     return {user:newUser, token};
 }
 
@@ -18,6 +18,6 @@ export const loginUser = async (email, password) => {
     if (!user) throw new ConflictError("Invalid credentials");
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new ConflictError("Invalid credentials");
-    const token = await signToken({ id: user.id, email: user.email });
+    const token = signToken({ id: user.id, email: user.email });
     return {user, token};
 }
