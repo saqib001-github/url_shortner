@@ -1,14 +1,15 @@
-import nJwt from 'njwt';
+import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
+
 export const generateNanoId = () => {
     const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
     return nanoid();
 }
 
 export const signToken = (payload) => {
-    return nJwt.create(payload, process.env.JWT_SECRET).compact();
+    return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
 export const verifyToken = (token) => {
-    return nJwt.verify(token,process.env.JWT_SECRET);
+    return jwt.verify(token, process.env.JWT_SECRET);
 };
